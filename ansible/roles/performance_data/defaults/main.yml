@@ -1,0 +1,24 @@
+---
+# performance_data/defaults/main.yml
+
+### influxdb config
+
+performance_data_influxdb_org: "myorg"
+
+# for local testing, use localhost
+# performance_data_influxdb_url: "http://localhost:8086"
+performance_data_influxdb_url: "https://perf-devel.cro-ngi.hr:8086"
+
+performance_data_influxdb_admin_token_path: "/root/influx_admin_token"
+
+### /influxdb config
+
+### grafana config
+
+performance_data_grafana_admin_pass_path: "/etc/grafana/pass"
+
+# for local testing, use localhost
+# performance_data_grafana_url: "http://localhost:3000"
+performance_data_grafana_url: "https://perf-devel.cro-ngi.hr:3000"
+
+### /grafana config
