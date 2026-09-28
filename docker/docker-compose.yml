@@ -35,7 +35,6 @@ services:
         target: ${SSH_AUTH_SOCK}
     environment:
       - SSH_AUTH_SOCK
-
     networks:
       argo-automation-play:
         ipv4_address: 172.21.0.12
@@ -129,6 +128,7 @@ services:
     networks:
       argo-automation-play:
         ipv4_address: 172.21.0.17
+
   performance_data:
     env_file:
       - compose.env

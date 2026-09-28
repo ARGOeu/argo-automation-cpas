@@ -278,6 +278,9 @@ class Ansible:
                 ams_component_tokens = ams.tokens.load_tokens(
                     self.settings.ams.tokens_spool
                 )
+            extravars = self._archiver_extravars(
+                ams_component_tokens, add_tenants, remove_tenants
+            )
         if playbook.startswith("performance_data"):
             extravars = self._perf_data_extravars(add_tenants, remove_tenants)
 
