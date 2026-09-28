@@ -27,9 +27,9 @@ services:
       - ../ansible:$VENV/ansible
       - ../modules/:$VENV/lib/python3.12/site-packages/argo_automation_cpas
       - ../../argoeu-automation-repo:/opt/argoeu-automation-repo
-      - ./perf_data/setup-perf.sh:/home/user/setup-perf.sh
-      - ./perf_data/remove-perf.sh:/home/user/remove-perf.sh
-      - ./perf_data/ssh-config:/home/user/.ssh/config
+      - ./setup-perf.sh:/home/user/setup-perf.sh
+      - ./remove-perf.sh:/home/user/remove-perf.sh
+      - ./ssh-config:/home/user/.ssh/config
       - type: bind
         source: ${SSH_AUTH_SOCK}
         target: ${SSH_AUTH_SOCK}
