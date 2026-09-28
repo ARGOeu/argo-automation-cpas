@@ -77,11 +77,13 @@ argo_automation_cpas = "modules/"
 	"ansible/project/init.yml",
 	"ansible/project/connectors.yml",
 	"ansible/project/archiver.yml",
+	"ansible/project/performance_data.yml",
 	"ansible/project/poem.yml",
 ]
 "ansible/inventory" = [
 	"ansible/inventory/connectors.ini",
 	"ansible/inventory/archiver.ini",
+	"ansible/inventory/performance_data.ini",
 	"ansible/inventory/poem.ini",
 	"ansible/inventory/sensu.ini"
 ]
@@ -118,6 +120,25 @@ argo_automation_cpas = "modules/"
 ]
 "ansible/roles/connector/templates" = [
 	"ansible/roles/connector/templates/customer.conf.j2",
+]
+"ansible/roles/performance_data/defaults" = [
+	"ansible/roles/performance_data/defaults/main.yml",
+]
+"ansible/roles/performance_data/handlers" = [
+	"ansible/roles/performance_data/handlers/main.yml",
+]
+"ansible/roles/performance_data/tasks" = [
+	"ansible/roles/performance_data/tasks/main.yml",
+	"ansible/roles/performance_data/tasks/assert-packages-found.yml",
+	"ansible/roles/performance_data/tasks/create-bucket-dashboard.yml",
+	"ansible/roles/performance_data/tasks/remove-bucket-dashboard.yml",
+	"ansible/roles/performance_data/tasks/remove-tenants.yml",
+	"ansible/roles/performance_data/tasks/set-package-prereqs-facts.yml",
+	"ansible/roles/performance_data/tasks/setup-tenants.yml",
+]
+"ansible/roles/performance_data/templates" = [
+	"ansible/roles/performance_data/templates/grafana-dashboard-template.json.j2",
+	"ansible/roles/performance_data/templates/grafana-datasource.yml.j2",
 ]
 "ansible/roles/poem/defaults" = [
 	"ansible/roles/poem/defaults/main.yml",
