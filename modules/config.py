@@ -143,7 +143,7 @@ class Settings(SimpleNamespace):
             archiver_playbook=ansible.get("archiver_playbook", "archiver.yml"),
             archiver_inventory=ansible.get("archiver_inventory", "archiver.ini"),
             perf_data_playbook=ansible.get(
-                "perf_data_playbook", "performance_data.y,l"
+                "perf_data_playbook", "performance_data.yml"
             ),
             perf_data_inventory=ansible.get(
                 "perf_data_inventory", "performance_data.ini"
