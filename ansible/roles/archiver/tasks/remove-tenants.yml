@@ -1,4 +1,5 @@
 ---
+
 - name: Remove configuration for tenants pending removal
   ansible.builtin.import_tasks: ./remove-conf-setup.yml
 
@@ -10,7 +11,6 @@
     name: "ams-consumer@{{ item.tenant_name }}.service"
     state: stopped
   failed_when: false
-
   loop: "{{ archiver_remove_tenants }}"
 
 - name: Disable removed ams-consumer services

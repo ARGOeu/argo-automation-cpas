@@ -3,8 +3,8 @@
 
 - name: Setup newly added tenants
   ansible.builtin.import_tasks: ./add-tenants.yml
-  when: archiver_tenants | length > 0
+  when: archiver_tenants is defined and archiver_tenants | length > 0
 
 - name: Process removal of pending tenants
   ansible.builtin.import_tasks: ./remove-tenants.yml
-  when: archiver_remove_tenants | length > 0
+  when: archiver_remove_tenants is defined and archiver_remove_tenants | length > 0
