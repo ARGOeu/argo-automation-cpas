@@ -4,7 +4,7 @@
     create: false
     path: "{{ sensu_scg_conf_path }}"
     section: "{{ item.key }}"
-  loop: "{{ sensu_add_tenants }}"
+  loop: "{{ sensu_add_tenants | dict2items }}"
 
 - name: Add host value for each tenant
   community.general.ini_file:
@@ -12,8 +12,8 @@
     path: "{{ sensu_scg_conf_path }}"
     section: "{{ item.key }}"
     option: poem_url
-    value: "{{ item.value.host }}"
-  loop: "{{ sensu_add_tenants }}"
+    value: "https://{{ item.value.tenant_name_lower }}.{{ sensu_scg_poem_url }}"
+  loop: "{{ sensu_add_tenants | dict2items }}"
 
 - name: Add poem_token value for each tenant
   community.general.ini_file:
@@ -22,7 +22,7 @@
     section: "{{ item.key }}"
     option: poem_token
     value: "{{ item.value.poem_token }}"
-  loop: "{{ sensu_add_tenants }}"
+  loop: "{{ sensu_add_tenants | dict2items }}"
   no_log: true
 
 - name: Add webapi_token value for each tenant
@@ -32,7 +32,7 @@
     section: "{{ item.key }}"
     option: webapi_token
     value: "{{ item.value.webapi_token }}"
-  loop: "{{ sensu_add_tenants }}"
+  loop: "{{ sensu_add_tenants | dict2items }}"
   no_log: true
 
 - name: Add metricprofiles value for each tenant
@@ -41,8 +41,8 @@
     path: "{{ sensu_scg_conf_path }}"
     section: "{{ item.key }}"
     option: metricprofiles
-    value: "{{ item.value.metricprofiles }}"
-  loop: "{{ sensu_add_tenants }}"
+    value: default_metric
+  loop: "{{ sensu_add_tenants | dict2items }}"
 
 - name: Add secrets value for each tenant
   community.general.ini_file:
@@ -50,8 +50,8 @@
     path: "{{ sensu_scg_conf_path }}"
     section: "{{ item.key }}"
     option: secrets
-    value: "{{ item.value.secrets }}"
-  loop: "{{ sensu_add_tenants }}"
+    value: etc/sensu/secret_envs
+  loop: "{{ sensu_add_tenants | dict2items }}"
 
 - name: Add publish value for each tenant
   community.general.ini_file:
@@ -59,8 +59,8 @@
     path: "{{ sensu_scg_conf_path }}"
     section: "{{ item.key }}"
     option: publish
-    value: "{{ item.value.publish }}"
-  loop: "{{ sensu_add_tenants }}"
+    value: "true"
+  loop: "{{ sensu_add_tenants | dict2items }}"
 
 - name: Add publisher_queue value for each tenant
   community.general.ini_file:
@@ -68,8 +68,8 @@
     path: "{{ sensu_scg_conf_path }}"
     section: "{{ item.key }}"
     option: publisher_queue
-    value: "{{ item.value.publisher_queue }}"
-  loop: "{{ sensu_add_tenants }}"
+    value: "/var/spool/ams-publisher/{{ item.value.tenant_name_lower }}_metrics/"
+  loop: "{{ sensu_add_tenants | dict2items }}"
 
 - name: Add namespace value for each tenant
   community.general.ini_file:
@@ -77,5 +77,5 @@
     path: "{{ sensu_scg_conf_path }}"
     section: "{{ item.key }}"
     option: namespace
-    value: "{{ item.value.namespace }}"
-  loop: "{{ sensu_add_tenants }}"
+    value: auto
+  loop: "{{ sensu_add_tenants | dict2items }}"

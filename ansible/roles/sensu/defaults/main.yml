@@ -20,6 +20,9 @@ sensu_scg_conf_path: /etc/argo-scg/scg.conf
 sensu_ams_conf_path: /etc/ams-publisher/ams-publisher-sensu.conf
 sensu_poem_tools_conf_path: /etc/argo-poem-tools/argo-poem-tools.conf
 
+# Scg config
+sensu_scg_poem_url: poem.devel.mon.argo.grnet.gr
+
 # Ams config
 sensu_ams_directory_base: /var/spool/ams-publisher/
 sensu_ams_api_url: api.devel.msg.argo.grnet.gr
