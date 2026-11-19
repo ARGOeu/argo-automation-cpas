@@ -3,14 +3,14 @@
 - name: Add queue section for each tenant
   community.general.ini_file:
     create: false
-    path: "{{ sensu_scg_conf_path }}"
+    path: "{{ sensu_ams_conf_path }}"
     section: "Queue_Metrics{{ item.key | lower }}"
   loop: "{{ sensu_add_tenants }}"
 
 - name: Add directory value for each tenant
   community.general.ini_file:
     create: false
-    path: "{{ sensu_scg_conf_path }}"
+    path: "{{ sensu_ams_conf_path }}"
     section: "Queue_Metrics{{ item.key | lower }}"
     option: Directory
     value: "{{ sensu_ams_directory_base }}/{{ item.key | lower }}_metrics"
@@ -19,7 +19,7 @@
 - name: Add rate value for each tenant
   community.general.ini_file:
     create: false
-    path: "{{ sensu_scg_conf_path }}"
+    path: "{{ sensu_ams_conf_path }}"
     section: "Queue_Metrics{{ item.key | lower }}"
     option: Rate
     value: 1
@@ -28,7 +28,7 @@
 - name: Add purge value for each tenant
   community.general.ini_file:
     create: false
-    path: "{{ sensu_scg_conf_path }}"
+    path: "{{ sensu_ams_conf_path }}"
     section: "Queue_Metrics{{ item.key | lower }}"
     option: Purge
     value: "True"
@@ -37,7 +37,7 @@
 - name: Add PurgeEverySec value for each tenant
   community.general.ini_file:
     create: false
-    path: "{{ sensu_scg_conf_path }}"
+    path: "{{ sensu_ams_conf_path }}"
     section: "Queue_Metrics{{ item.key | lower }}"
     option: PurgeEverySec
     value: 300
@@ -46,7 +46,7 @@
 - name: Add MaxTemp value for each tenant
   community.general.ini_file:
     create: false
-    path: "{{ sensu_scg_conf_path }}"
+    path: "{{ sensu_ams_conf_path }}"
     section: "Queue_Metrics{{ item.key | lower }}"
     option: MaxTemp
     value: 300
@@ -55,7 +55,7 @@
 - name: Add MaxLock value for each tenant
   community.general.ini_file:
     create: false
-    path: "{{ sensu_scg_conf_path }}"
+    path: "{{ sensu_ams_conf_path }}"
     section: "Queue_Metrics{{ item.key | lower }}"
     option: MaxLock
     value: 0
@@ -64,7 +64,7 @@
 - name: Add Granularity value for each tenant
   community.general.ini_file:
     create: false
-    path: "{{ sensu_scg_conf_path }}"
+    path: "{{ sensu_ams_conf_path }}"
     section: "Queue_Metrics{{ item.key | lower }}"
     option: Granularity
     value: 60
@@ -75,14 +75,14 @@
 - name: Add topic section for each tenant
   community.general.ini_file:
     create: false
-    path: "{{ sensu_scg_conf_path }}"
+    path: "{{ sensu_ams_conf_path }}"
     section: "Topic_Metrics{{ item.key | lower }}"
   loop: "{{ sensu_add_tenants }}"
 
 - name: Add Host value for each tenant
   community.general.ini_file:
     create: false
-    path: "{{ sensu_scg_conf_path }}"
+    path: "{{ sensu_ams_conf_path }}"
     section: "Topic_Metrics{{ item.key | lower }}"
     option: Host
     value: "{{ sensu_ams_api_url }}"
@@ -91,7 +91,7 @@
 - name: Add Key value for each tenant
   community.general.ini_file:
     create: false
-    path: "{{ sensu_scg_conf_path }}"
+    path: "{{ sensu_ams_conf_path }}"
     section: "Topic_Metrics{{ item.key | lower }}"
     option: Key
     value: "{{ item.value.ams_token }}"
@@ -100,7 +100,7 @@
 - name: Add Project value for each tenant
   community.general.ini_file:
     create: false
-    path: "{{ sensu_scg_conf_path }}"
+    path: "{{ sensu_ams_conf_path }}"
     section: "Topic_Metrics{{ item.key | lower }}"
     option: Project
     value: "{{ item.key | upper }}"
@@ -109,7 +109,7 @@
 - name: Add Topic value for each tenant
   community.general.ini_file:
     create: false
-    path: "{{ sensu_scg_conf_path }}"
+    path: "{{ sensu_ams_conf_path }}"
     section: "Topic_Metrics{{ item.key | lower }}"
     option: Topic
     value: "metric_data"
@@ -118,7 +118,7 @@
 - name: Add Bulksize value for each tenant
   community.general.ini_file:
     create: false
-    path: "{{ sensu_scg_conf_path }}"
+    path: "{{ sensu_ams_conf_path }}"
     section: "Topic_Metrics{{ item.key | lower }}"
     option: Bulksize
     value: 1
@@ -127,7 +127,7 @@
 - name: Add MsgType value for each tenant
   community.general.ini_file:
     create: false
-    path: "{{ sensu_scg_conf_path }}"
+    path: "{{ sensu_ams_conf_path }}"
     section: "Topic_Metrics{{ item.key | lower }}"
     option: MsgType
     value: "metric_data"
@@ -136,7 +136,7 @@
 - name: Add Avro value for each tenant
   community.general.ini_file:
     create: false
-    path: "{{ sensu_scg_conf_path }}"
+    path: "{{ sensu_ams_conf_path }}"
     section: "Topic_Metrics{{ item.key | lower }}"
     option: Avro
     value: "True"
@@ -145,7 +145,7 @@
 - name: Add AvroSchema value for each tenant
   community.general.ini_file:
     create: false
-    path: "{{ sensu_scg_conf_path }}"
+    path: "{{ sensu_ams_conf_path }}"
     section: "Topic_Metrics{{ item.key | lower }}"
     option: AvroSchema
     value: "{{ sensu_avro_schema_directory }}"
@@ -154,7 +154,7 @@
 - name: Add Retry value for each tenant
   community.general.ini_file:
     create: false
-    path: "{{ sensu_scg_conf_path }}"
+    path: "{{ sensu_ams_conf_path }}"
     section: "Topic_Metrics{{ item.key | lower }}"
     option: Retry
     value: 300
@@ -163,7 +163,7 @@
 - name: Add Timeout value for each tenant
   community.general.ini_file:
     create: false
-    path: "{{ sensu_scg_conf_path }}"
+    path: "{{ sensu_ams_conf_path }}"
     section: "Topic_Metrics{{ item.key | lower }}"
     option: Timeout
     value: 60
@@ -172,7 +172,7 @@
 - name: Add SleepRetry value for each tenant
   community.general.ini_file:
     create: false
-    path: "{{ sensu_scg_conf_path }}"
+    path: "{{ sensu_ams_conf_path }}"
     section: "Topic_Metrics{{ item.key | lower }}"
     option: SleepRetry
     value: 300

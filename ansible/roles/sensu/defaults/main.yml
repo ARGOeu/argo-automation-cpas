@@ -17,6 +17,7 @@ sensu_remove_tenants: null
 
 # Config files paths
 sensu_scg_conf_path: /etc/argo-scg/scg.conf
+sensu_ams_conf_path: /etc/ams-publisher/ams-publisher-sensu.conf
 sensu_poem_tools_conf_path: /etc/argo-poem-tools/argo-poem-tools.conf
 
 # Ams config

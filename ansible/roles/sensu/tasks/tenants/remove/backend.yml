@@ -1,7 +1,21 @@
 ---
-- name: Remove section for each tenant
+- name: Remove scg section for each tenant
   community.general.ini_file:
     create: false
     path: "{{ sensu_scg_conf_path }}"
     section: "{{ item.key }}"
+  loop: "{{ sensu_remove_tenants }}"
+
+- name: Remove ams Queue section for each tenant
+  community.general.ini_file:
+    create: false
+    path: "{{ sensu_ams_conf_path }}"
+    section: "Queue_Metrics{{ item.key | lower }}"
+  loop: "{{ sensu_remove_tenants }}"
+
+- name: Remove ams Topic section for each tenant
+  community.general.ini_file:
+    create: false
+    path: "{{ sensu_ams_conf_path }}"
+    section: "Topic_Metrics{{ item.key | lower }}"
   loop: "{{ sensu_remove_tenants }}"
