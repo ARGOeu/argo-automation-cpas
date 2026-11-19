@@ -19,4 +19,9 @@ sensu_remove_tenants: null
 sensu_scg_conf_path: /etc/argo-scg/scg.conf
 sensu_poem_tools_conf_path: /etc/argo-poem-tools/argo-poem-tools.conf
 
+# Ams config
+sensu_ams_directory_base: /var/spool/ams-publisher/
+sensu_ams_api_url: api.devel.msg.argo.grnet.gr
+sensu_avro_schema_directory: /etc/ams-publisher/metric_data.avsc
+
 # /CONST SECTION
