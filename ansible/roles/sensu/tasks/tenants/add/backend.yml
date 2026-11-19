@@ -1,0 +1,81 @@
+---
+- name: Add section for each tenant
+  community.general.ini_file:
+    create: false
+    path: "{{ sensu_scg_conf_path }}"
+    section: "{{ item.key }}"
+  loop: "{{ sensu_add_tenants }}"
+
+- name: Add host value for each tenant
+  community.general.ini_file:
+    create: false
+    path: "{{ sensu_scg_conf_path }}"
+    section: "{{ item.key }}"
+    option: poem_url
+    value: "{{ item.value.host }}"
+  loop: "{{ sensu_add_tenants }}"
+
+- name: Add poem_token value for each tenant
+  community.general.ini_file:
+    create: false
+    path: "{{ sensu_scg_conf_path }}"
+    section: "{{ item.key }}"
+    option: poem_token
+    value: "{{ item.value.poem_token }}"
+  loop: "{{ sensu_add_tenants }}"
+  no_log: true
+
+- name: Add webapi_token value for each tenant
+  community.general.ini_file:
+    create: false
+    path: "{{ sensu_scg_conf_path }}"
+    section: "{{ item.key }}"
+    option: webapi_token
+    value: "{{ item.value.webapi_token }}"
+  loop: "{{ sensu_add_tenants }}"
+  no_log: true
+
+- name: Add metricprofiles value for each tenant
+  community.general.ini_file:
+    create: false
+    path: "{{ sensu_scg_conf_path }}"
+    section: "{{ item.key }}"
+    option: metricprofiles
+    value: "{{ item.value.metricprofiles }}"
+  loop: "{{ sensu_add_tenants }}"
+
+- name: Add secrets value for each tenant
+  community.general.ini_file:
+    create: false
+    path: "{{ sensu_scg_conf_path }}"
+    section: "{{ item.key }}"
+    option: secrets
+    value: "{{ item.value.secrets }}"
+  loop: "{{ sensu_add_tenants }}"
+
+- name: Add publish value for each tenant
+  community.general.ini_file:
+    create: false
+    path: "{{ sensu_scg_conf_path }}"
+    section: "{{ item.key }}"
+    option: publish
+    value: "{{ item.value.publish }}"
+  loop: "{{ sensu_add_tenants }}"
+
+- name: Add publisher_queue value for each tenant
+  community.general.ini_file:
+    create: false
+    path: "{{ sensu_scg_conf_path }}"
+    section: "{{ item.key }}"
+    option: publisher_queue
+    value: "{{ item.value.publisher_queue }}"
+  loop: "{{ sensu_add_tenants }}"
+
+- name: Add namespace value for each tenant
+  community.general.ini_file:
+    create: false
+    path: "{{ sensu_scg_conf_path }}"
+    section: "{{ item.key }}"
+    option: namespace
+    value: "{{ item.value.namespace }}"
+  loop: "{{ sensu_add_tenants }}"

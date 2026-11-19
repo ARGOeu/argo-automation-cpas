@@ -1,0 +1,22 @@
+---
+# defaults file for archiver
+
+# Choose where the tenant is updated
+sensu_update_backend: false
+sensu_update_agent: false
+
+# List of tenants to be added (use via extra_vars)
+sensu_add_tenants: null
+
+# List of tenants to be removed (use via extra_vars)
+sensu_remove_tenants: null
+
+# -------------------------------------------------------------------
+
+# CONST SECTION
+
+# Config files paths
+sensu_scg_conf_path: /etc/argo-scg/scg.conf
+sensu_poem_tools_conf_path: /etc/argo-poem-tools/argo-poem-tools.conf
+
+# /CONST SECTION
