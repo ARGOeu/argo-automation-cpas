@@ -5,5 +5,4 @@
 
 - name: Restart agent
   ansible.builtin.command: python /bin/argo-poem-packages.py
-
   changed_when: true
