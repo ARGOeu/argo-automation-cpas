@@ -1,0 +1,179 @@
+---
+# Queue_Metric{tenant_name}
+- name: Add queue section for each tenant
+  community.general.ini_file:
+    create: false
+    path: "{{ sensu_ams_conf_path }}"
+    section: "Queue_Metrics{{ item.key | lower }}"
+  loop: "{{ sensu_add_tenants | dict2items }}"
+
+- name: Add directory value for each tenant
+  community.general.ini_file:
+    create: false
+    path: "{{ sensu_ams_conf_path }}"
+    section: "Queue_Metrics{{ item.key | lower }}"
+    option: Directory
+    value: "{{ sensu_ams_directory_base }}/{{ item.key | lower }}_metrics"
+  loop: "{{ sensu_add_tenants | dict2items }}"
+
+- name: Add rate value for each tenant
+  community.general.ini_file:
+    create: false
+    path: "{{ sensu_ams_conf_path }}"
+    section: "Queue_Metrics{{ item.key | lower }}"
+    option: Rate
+    value: 1
+  loop: "{{ sensu_add_tenants | dict2items }}"
+
+- name: Add purge value for each tenant
+  community.general.ini_file:
+    create: false
+    path: "{{ sensu_ams_conf_path }}"
+    section: "Queue_Metrics{{ item.key | lower }}"
+    option: Purge
+    value: "True"
+  loop: "{{ sensu_add_tenants | dict2items }}"
+
+- name: Add PurgeEverySec value for each tenant
+  community.general.ini_file:
+    create: false
+    path: "{{ sensu_ams_conf_path }}"
+    section: "Queue_Metrics{{ item.key | lower }}"
+    option: PurgeEverySec
+    value: 300
+  loop: "{{ sensu_add_tenants | dict2items }}"
+
+- name: Add MaxTemp value for each tenant
+  community.general.ini_file:
+    create: false
+    path: "{{ sensu_ams_conf_path }}"
+    section: "Queue_Metrics{{ item.key | lower }}"
+    option: MaxTemp
+    value: 300
+  loop: "{{ sensu_add_tenants | dict2items }}"
+
+- name: Add MaxLock value for each tenant
+  community.general.ini_file:
+    create: false
+    path: "{{ sensu_ams_conf_path }}"
+    section: "Queue_Metrics{{ item.key | lower }}"
+    option: MaxLock
+    value: 0
+  loop: "{{ sensu_add_tenants | dict2items }}"
+
+- name: Add Granularity value for each tenant
+  community.general.ini_file:
+    create: false
+    path: "{{ sensu_ams_conf_path }}"
+    section: "Queue_Metrics{{ item.key | lower }}"
+    option: Granularity
+    value: 60
+  loop: "{{ sensu_add_tenants | dict2items }}"
+
+# Topic_Metric{tenant_name}
+
+- name: Add topic section for each tenant
+  community.general.ini_file:
+    create: false
+    path: "{{ sensu_ams_conf_path }}"
+    section: "Topic_Metrics{{ item.key | lower }}"
+  loop: "{{ sensu_add_tenants | dict2items }}"
+
+- name: Add Host value for each tenant
+  community.general.ini_file:
+    create: false
+    path: "{{ sensu_ams_conf_path }}"
+    section: "Topic_Metrics{{ item.key | lower }}"
+    option: Host
+    value: "{{ sensu_ams_api_url }}"
+  loop: "{{ sensu_add_tenants | dict2items }}"
+
+- name: Add Key value for each tenant
+  community.general.ini_file:
+    create: false
+    path: "{{ sensu_ams_conf_path }}"
+    section: "Topic_Metrics{{ item.key | lower }}"
+    option: Key
+    value: "{{ item.value.ams_token }}"
+  loop: "{{ sensu_add_tenants | dict2items }}"
+
+- name: Add Project value for each tenant
+  community.general.ini_file:
+    create: false
+    path: "{{ sensu_ams_conf_path }}"
+    section: "Topic_Metrics{{ item.key | lower }}"
+    option: Project
+    value: "{{ item.key | upper }}"
+  loop: "{{ sensu_add_tenants | dict2items }}"
+
+- name: Add Topic value for each tenant
+  community.general.ini_file:
+    create: false
+    path: "{{ sensu_ams_conf_path }}"
+    section: "Topic_Metrics{{ item.key | lower }}"
+    option: Topic
+    value: "metric_data"
+  loop: "{{ sensu_add_tenants | dict2items }}"
+
+- name: Add Bulksize value for each tenant
+  community.general.ini_file:
+    create: false
+    path: "{{ sensu_ams_conf_path }}"
+    section: "Topic_Metrics{{ item.key | lower }}"
+    option: Bulksize
+    value: 1
+  loop: "{{ sensu_add_tenants | dict2items }}"
+
+- name: Add MsgType value for each tenant
+  community.general.ini_file:
+    create: false
+    path: "{{ sensu_ams_conf_path }}"
+    section: "Topic_Metrics{{ item.key | lower }}"
+    option: MsgType
+    value: "metric_data"
+  loop: "{{ sensu_add_tenants | dict2items }}"
+
+- name: Add Avro value for each tenant
+  community.general.ini_file:
+    create: false
+    path: "{{ sensu_ams_conf_path }}"
+    section: "Topic_Metrics{{ item.key | lower }}"
+    option: Avro
+    value: "True"
+  loop: "{{ sensu_add_tenants | dict2items }}"
+
+- name: Add AvroSchema value for each tenant
+  community.general.ini_file:
+    create: false
+    path: "{{ sensu_ams_conf_path }}"
+    section: "Topic_Metrics{{ item.key | lower }}"
+    option: AvroSchema
+    value: "{{ sensu_avro_schema_directory }}"
+  loop: "{{ sensu_add_tenants | dict2items }}"
+
+- name: Add Retry value for each tenant
+  community.general.ini_file:
+    create: false
+    path: "{{ sensu_ams_conf_path }}"
+    section: "Topic_Metrics{{ item.key | lower }}"
+    option: Retry
+    value: 300
+  loop: "{{ sensu_add_tenants | dict2items }}"
+
+- name: Add Timeout value for each tenant
+  community.general.ini_file:
+    create: false
+    path: "{{ sensu_ams_conf_path }}"
+    section: "Topic_Metrics{{ item.key | lower }}"
+    option: Timeout
+    value: 60
+  loop: "{{ sensu_add_tenants | dict2items }}"
+
+- name: Add SleepRetry value for each tenant
+  community.general.ini_file:
+    create: false
+    path: "{{ sensu_ams_conf_path }}"
+    section: "Topic_Metrics{{ item.key | lower }}"
+    option: SleepRetry
+    value: 300
+  loop: "{{ sensu_add_tenants | dict2items }}"

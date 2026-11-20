@@ -134,7 +134,7 @@ class Application:
             )
 
         # commit new tenant configs to git repo
-        monboxgit_success = monboxgit.commit_new_tenants()
+        monboxgit_success = await monboxgit.commit_tenants()
         if not monboxgit_success:
             for payload in init_events:
                 props = payload.get("properties", {})
@@ -154,8 +154,8 @@ class Application:
             )
 
         # run puppet script on machines
-        runner_rc = await monboxgit.start_monboxgit_runner()
-        if runner_rc == 1:
+        success = await monboxgit.commit_tenants()
+        if not success:
             for payload in init_events:
                 props = payload.get("properties", {})
                 tenant_id = props["tenant_id"]
@@ -204,9 +204,6 @@ class Application:
 
         if not all_tenants_inited:
             LOG.warning("Some tenants weren't able to initialize monitoring box!")
-
-        await monboxgit.update_packages_on_backend()
-        await monboxgit.update_packages_on_agent()
 
         token = await iam.fetch_token()
 
@@ -388,7 +385,7 @@ class Application:
             return
 
         if self.only_monbox_git:
-            LOG.info("Running OnlyMonboxGit")
+            LOG.info("Running OnlyMonbox")
             monboxgit = MonboxGit()
 
             run_delete_tenant = self.delete_tenant is not None
@@ -396,12 +393,22 @@ class Application:
 
             if run_delete_tenant:
                 if valid_delete_tenant:
-                    LOG.info(f"OnlyMonboxGit | Removing tenant {self.delete_tenant}")
-                    monboxgit.remove_tenant(self.delete_tenant)
-                    await monboxgit.start_monboxgit_runner()
+                    LOG.info(f"OnlyMonbox | Removing tenant {self.delete_tenant}")
+                    monboxgit.add_remove_tenant(self.delete_tenant)
+                    
+                    success = await monboxgit.commit_tenants()
+                    if success:
+                        LOG.info(
+                            f"OnlyMonbox | "
+                            f"Removed tenant {self.delete_tenant}")
+                    else:
+                        LOG.error(
+                            f"OnlyMonbox | "
+                            f"Error while removing tenant {self.delete_tenant}")
                 else:
                     LOG.error(
-                        "OnlyMonboxGit | Invalid tenant_name provided for delete_tenant. Exiting early."
+                        "OnlyMonbox | "
+                        "Invalid name provided for delete_tenant. Early exit."
                     )
 
                 return
@@ -410,7 +417,7 @@ class Application:
 
             if len(tenant_names) == 0:
                 LOG.error(
-                    "Only MonboxGit | tenant_names array is empty. Exiting early."
+                    "Only Monbox | tenant_names array is empty. Exiting early."
                 )
                 return
 
@@ -421,7 +428,7 @@ class Application:
             restapi_tokens = restapi_tokens_client.load_tokens()
 
             if restapi_tokens is None:
-                LOG.error("Only MonboxGit | RestAPI tokens not found!")
+                LOG.error("Only Monbox | RestAPI tokens not found!")
                 return
 
             for tenant_name in tenant_names:
@@ -432,16 +439,16 @@ class Application:
                     restapi_tokens,
                 )
 
-            success = monboxgit.commit_new_tenants()
+            success = await monboxgit.commit_tenants()
             if not success:
-                LOG.error("One of the git commits was unsuccessful! Exiting early.")
+                LOG.error(
+                    "Only Monbox | "
+                    "One of the git commits was unsuccessful! Exiting early.")
                 return
 
             LOG.info("Only Monbox | Successfully commited file changes.")
 
             monboxgit.clear_added_tenants()
-
-            await monboxgit.start_monboxgit_runner()
 
             return
 

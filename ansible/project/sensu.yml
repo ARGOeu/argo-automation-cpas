@@ -1,0 +1,8 @@
+---
+- name: Playbook for managing sensu monitoring for tenants
+  hosts: all
+  become: true
+  vars:
+    errors_ignore: false
+  roles:
+    - { role: sensu }

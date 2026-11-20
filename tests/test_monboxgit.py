@@ -375,7 +375,7 @@ async def test_add_valid_tenant(mocker):
     monbox = MonboxGit()
 
     monbox.add_new_tenant(webapi, ams, new_tenant_name, restapi_tokens)
-    monbox.commit_new_tenants()
+    monbox.commit_tenants()
     monbox.clear_added_tenants()
 
     # IMPORTANT: Run w/o runner! We don't have a test machine to test out ansible runs.
@@ -488,4 +488,4 @@ def _helper_add_new_tenant(
         NewTenantEntryInfo(new_tenant_agent_info, new_tenant_backend_info)
     )
 
-    monbox.commit_new_tenants()
+    monbox.commit_tenants()
