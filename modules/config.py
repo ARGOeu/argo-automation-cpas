@@ -159,7 +159,8 @@ class Settings(SimpleNamespace):
             poem_restapi_token=poem_restapi_token,
             poem_superuserpassword=ansible.get("poem_superuserpassword", ""),
             user_sensu=ansible.get("user_sensu", ""),
-            sensu_inventory=ansible.get("sensu_inventory", "sensu.ini"),
+            sensu_inventory=ansible.get("sensu_inventory", "sensu-next.ini"),
+            sensu_playbook=ansible.get("sensu_playbook", "sensu.yml")
         )
 
         self.base_url = self.webapi.url
