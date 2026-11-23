@@ -190,6 +190,8 @@ class MonboxGit:
         for tenant_name in self.remove_tenant_entries:
             playbook_instance.put_remove_tenant(tenant_name)
 
+        LOG.info("Starting playbook for sensu backend changes.")
+
         (success, kwargs) = await playbook_instance.run(quiet=False)
 
         return success
@@ -209,6 +211,8 @@ class MonboxGit:
         
         for tenant_name in self.remove_tenant_entries:
             playbook_instance.put_remove_tenant(tenant_name)
+        
+        LOG.info("Starting playbook for sensu agent changes.")
         
         (success, kwargs) = await playbook_instance.run(quiet=False)
 
