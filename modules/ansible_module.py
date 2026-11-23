@@ -90,11 +90,14 @@ class AnsibleModule:
             for group in self._limit:
                 limit += group + ","
             limit = limit[:-1]
-            kwargs["host_pattern"] = limit
+            #kwargs["host_pattern"] = limit
+            kwargs["limit"] = limit
 
         if self._private_key:
             kwargs["cmdline"] = "--private-key %s" % self._private_key
         
+        kwargs["verbosity"] = 0
+
         return kwargs
 
     async def run(
