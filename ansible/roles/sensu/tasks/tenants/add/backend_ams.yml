@@ -5,6 +5,7 @@
     create: false
     path: "{{ sensu_ams_conf_path }}"
     section: "Queue_Metrics{{ item.key | lower }}"
+    allow_no_value: true
   loop: "{{ sensu_add_tenants | dict2items }}"
 
 - name: Add directory value for each tenant
@@ -77,6 +78,7 @@
     create: false
     path: "{{ sensu_ams_conf_path }}"
     section: "Topic_Metrics{{ item.key | lower }}"
+    allow_no_value: true
   loop: "{{ sensu_add_tenants | dict2items }}"
 
 - name: Add Host value for each tenant

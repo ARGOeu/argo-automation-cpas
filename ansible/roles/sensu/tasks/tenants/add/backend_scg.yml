@@ -4,6 +4,7 @@
     create: false
     path: "{{ sensu_scg_conf_path }}"
     section: "{{ item.key }}"
+    allow_no_value: true
   loop: "{{ sensu_add_tenants | dict2items }}"
 
 - name: Add host value for each tenant
@@ -12,7 +13,7 @@
     path: "{{ sensu_scg_conf_path }}"
     section: "{{ item.key }}"
     option: poem_url
-    value: "https://{{ item.value.tenant_name_lower }}.{{ sensu_scg_poem_url }}"
+    value: "https://{{ item.value.tenant_name | lower }}.{{ sensu_scg_poem_url }}"
   loop: "{{ sensu_add_tenants | dict2items }}"
 
 - name: Add poem_token value for each tenant
@@ -68,7 +69,7 @@
     path: "{{ sensu_scg_conf_path }}"
     section: "{{ item.key }}"
     option: publisher_queue
-    value: "/var/spool/ams-publisher/{{ item.value.tenant_name_lower }}_metrics/"
+    value: "/var/spool/ams-publisher/{{ item.value.tenant_name | lower }}_metrics/"
   loop: "{{ sensu_add_tenants | dict2items }}"
 
 - name: Add namespace value for each tenant

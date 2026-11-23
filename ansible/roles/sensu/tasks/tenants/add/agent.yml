@@ -4,6 +4,7 @@
     create: false
     path: "{{ sensu_poem_tools_conf_path }}"
     section: "{{ item.key }}"
+    allow_no_value: true
   loop: "{{ sensu_add_tenants | dict2items }}"
 
 - name: Add host value for each tenant
@@ -12,7 +13,7 @@
     path: "{{ sensu_poem_tools_conf_path }}"
     section: "{{ item.key }}"
     option: Host
-    value: "{{ item.value.host }}"
+    value: "{{ item.value.poem_host }}"
   loop: "{{ sensu_add_tenants | dict2items }}"
 
 - name: Add poem_token value for each tenant
