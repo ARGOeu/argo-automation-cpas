@@ -6,6 +6,7 @@
     section: "{{ item.key }}"
     allow_no_value: true
   loop: "{{ sensu_add_tenants | dict2items }}"
+  no_log: true
 
 - name: Add host value for each tenant
   community.general.ini_file:
@@ -15,6 +16,7 @@
     option: poem_url
     value: "https://{{ item.value.tenant_name | lower }}.{{ sensu_scg_poem_url }}"
   loop: "{{ sensu_add_tenants | dict2items }}"
+  no_log: true
 
 - name: Add poem_token value for each tenant
   community.general.ini_file:
@@ -44,6 +46,7 @@
     option: metricprofiles
     value: default_metric
   loop: "{{ sensu_add_tenants | dict2items }}"
+  no_log: true
 
 - name: Add secrets value for each tenant
   community.general.ini_file:
@@ -53,6 +56,7 @@
     option: secrets
     value: etc/sensu/secret_envs
   loop: "{{ sensu_add_tenants | dict2items }}"
+  no_log: true
 
 - name: Add publish value for each tenant
   community.general.ini_file:
@@ -62,6 +66,7 @@
     option: publish
     value: "true"
   loop: "{{ sensu_add_tenants | dict2items }}"
+  no_log: true
 
 - name: Add publisher_queue value for each tenant
   community.general.ini_file:
@@ -71,6 +76,7 @@
     option: publisher_queue
     value: "/var/spool/ams-publisher/{{ item.value.tenant_name | lower }}_metrics/"
   loop: "{{ sensu_add_tenants | dict2items }}"
+  no_log: true
 
 - name: Add namespace value for each tenant
   community.general.ini_file:
@@ -80,3 +86,4 @@
     option: namespace
     value: auto
   loop: "{{ sensu_add_tenants | dict2items }}"
+  no_log: true

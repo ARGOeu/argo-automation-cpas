@@ -1,8 +1,13 @@
 ---
 - name: Restart backend
-  ansible.builtin.command: python /bin/scg-reload.py
+  #  ansible.builtin.command: python /bin/scg-reload.py
+  ansible.builtin.debug:
+    msg: "Restarting backend"
+
   changed_when: true
 
 - name: Restart agent
-  ansible.builtin.command: python /bin/argo-poem-packages.py
+  #  ansible.builtin.command: python /bin/argo-poem-packages.py
+  ansible.builtin.debug:
+    msg: "Restarting agent"
   changed_when: true
