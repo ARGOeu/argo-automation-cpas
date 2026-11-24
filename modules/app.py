@@ -7,7 +7,7 @@ from argo_automation_cpas.ansible import Ansible
 from argo_automation_cpas.artifacts import clean_artifacts
 from argo_automation_cpas.config import get_settings, Settings
 from argo_automation_cpas.iam import IAM
-from argo_automation_cpas.monboxgit import MonboxGit
+from argo_automation_cpas.monboxgit import MonboxAddTenantResult, MonboxGit
 from argo_automation_cpas.statusapi import StatusAPI
 from argo_automation_cpas.tokens import RestAPITokens
 from argo_automation_cpas.webapi import WebAPI
@@ -120,10 +120,23 @@ class Application:
             tenant_id = props["tenant_id"]
             event = payload.get("name")
 
-            added = monboxgit.add_new_tenant(webapi, ams, tenant_name, restapi_tokens)
+            result: MonboxAddTenantResult = monboxgit.add_new_tenant(
+                webapi, 
+                ams, 
+                tenant_name, 
+                restapi_tokens
+            )
 
-            # if there is an error or the status api has already been set; skip
-            if not added:
+            if result != MonboxAddTenantResult.SUCCESS:                
+                if result == MonboxAddTenantResult.ERROR:
+                    await status_api.update_job_status(
+                        tenant_id,
+                        event,
+                        "FAILED",
+                        token,
+                        message=("Error: MonboxGit module unable to add tenant.")
+                    )
+
                 continue
 
             await status_api.update_job_status(

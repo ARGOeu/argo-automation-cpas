@@ -8,6 +8,7 @@ import yaml
 import tempfile
 import shutil
 from git import Repo
+from enum import Enum
 
 from argo_automation_cpas.monitoring_playbook import (
     MonitoringPlaybook, 
@@ -15,6 +16,11 @@ from argo_automation_cpas.monitoring_playbook import (
     NewTenantBackendInfo, 
     NewTenantEntryInfo
 )
+
+class MonboxAddTenantResult(Enum):
+    SUCCESS = 0,
+    ALREADY_ADDED = 1,
+    ERROR = 2
 
 import ansible_runner
 
@@ -35,12 +41,12 @@ class MonboxGit:
         self.remove_tenant_entries: list[str] = []
         self.updated_tenants: list[TenantActionInfo] = []
 
-    def add_new_tenant(self, webapi, ams, new_tenant_name, rest_api_tokens):
+    def add_new_tenant(self, webapi, ams, new_tenant_name, rest_api_tokens) -> MonboxAddTenantResult:
         tenant_name_lower = new_tenant_name.lower()
 
         if self._is_tenant_already_added(new_tenant_name):
             LOG.info(f"Tenant {new_tenant_name} already queued to be added!")
-            return False
+            return MonboxAddTenantResult.ALREADY_ADDED
 
         restApiToken = rest_api_tokens.get(new_tenant_name)
 
@@ -50,7 +56,7 @@ class MonboxGit:
                 + new_tenant_name
                 + "; Exiting early."
             )
-            return False
+            return MonboxAddTenantResult.ERROR
 
         restApiToken = restApiToken.get("restapi")
 
@@ -64,7 +70,7 @@ class MonboxGit:
                 + new_tenant_name
                 + "; Exiting early."
             )
-            return False
+            return MonboxAddTenantResult.ERROR
 
         webapi_token = webapi_tokens.get(monbox_webapi_component)
 
@@ -74,7 +80,7 @@ class MonboxGit:
                 + new_tenant_name
                 + "; Exiting early."
             )
-            return False
+            return MonboxAddTenantResult.ERROR
 
         monbox_ams_component = "argo-monbox"
         ams_tokens = ams.tokens.load_tokens(self.settings.ams.tokens_spool)
@@ -84,14 +90,14 @@ class MonboxGit:
             LOG.error(
                 "There is no ams_token for tenant with id: " + new_tenant_name + "; Exiting early."
             )
-            return False
+            return MonboxAddTenantResult.ERROR
 
         ams_token = ams_tokens.get(monbox_ams_component)
         if ams_token is None:
             LOG.error(
                 f"There is no argo-monbox ams_token for tenant with id: {new_tenant_name}; Exiting early."
             )
-            return False
+            return MonboxAddTenantResult.ERROR
 
         new_tenant_agent_info = NewTenantAgentInfo(
             tenant_name=new_tenant_name,
@@ -110,7 +116,7 @@ class MonboxGit:
             NewTenantEntryInfo(new_tenant_agent_info, new_tenant_backend_info)
         )
 
-        return True
+        return MonboxAddTenantResult.SUCCESS
     
     def add_remove_tenant(self, tenant_name) -> None:
         if (tenant_name not in self.remove_tenant_entries):
