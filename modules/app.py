@@ -146,27 +146,7 @@ class Application:
                 token,
             )
 
-        # commit new tenant configs to git repo
-        monboxgit_success = await monboxgit.commit_tenants()
-        if not monboxgit_success:
-            for payload in init_events:
-                props = payload.get("properties", {})
-                tenant_id = props["tenant_id"]
-                event = payload.get("name")
-                await status_api.update_job_status(
-                    tenant_id,
-                    event,
-                    "FAILED",
-                    token,
-                    message=(
-                        "Error: MonboxGit module was unable to successfully commit new changes for this tenant."
-                    ),
-                )
-            raise RuntimeError(
-                "Monbox new tenants commit was unsuccessful! Exiting early."
-            )
-
-        # run puppet script on machines
+        # add new tenants to the config
         success = await monboxgit.commit_tenants()
         if not success:
             for payload in init_events:
