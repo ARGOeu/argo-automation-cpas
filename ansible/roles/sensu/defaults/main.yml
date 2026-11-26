@@ -1,5 +1,5 @@
 ---
-# defaults file for archiver
+# defaults file for sensu
 
 # Choose where the tenant is updated
 sensu_update_backend: false
