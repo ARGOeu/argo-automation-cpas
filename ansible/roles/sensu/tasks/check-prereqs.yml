@@ -1,0 +1,19 @@
+---
+# ./check-prereqs.yml
+
+- name: Backend prerequisites
+  ansible.builtin.import_tasks: ./prereqs/backend-prereqs.yml
+  when: sensu_update_backend
+
+- name: Agent prerequisites
+  ansible.builtin.import_tasks: ./prereqs/agent-prereqs.yml
+  when: sensu_update_agent
+
+# Avoid this if possible; only do this if the backend and agent are on the same machine
+- name: Assert that at least one exists if updating both backend and agent at the same time
+  ansible.builtin.assert:
+    that:
+      - poem_tools_conf_file_stat is defined
+      - scg_conf_file_stat is defined
+      - poem_tools_conf_file_stat.stat.exists or scg_conf_file_stat.stat.exists
+  when: sensu_update_backend and sensu_update_agent

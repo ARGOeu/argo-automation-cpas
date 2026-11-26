@@ -1,0 +1,6 @@
+---
+- name: Add tenant info to scg
+  ansible.builtin.include_tasks: ./backend_scg.yml
+
+- name: Add tenant info to ams-publisher
+  ansible.builtin.include_tasks: ./backend_ams.yml

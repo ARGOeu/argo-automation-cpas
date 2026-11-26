@@ -1,0 +1,13 @@
+---
+# ./check-prereqs.yml
+
+- name: Check if poem tools config file exists
+  ansible.builtin.stat:
+    path: "{{ sensu_poem_tools_conf_path }}"
+  register: poem_tools_conf_file_stat
+
+- name: Assert poem tools config file exists
+  ansible.builtin.assert:
+    that:
+      - poem_tools_conf_file_stat.stat.exists
+  when: sensu_update_agent and not sensu_update_backend

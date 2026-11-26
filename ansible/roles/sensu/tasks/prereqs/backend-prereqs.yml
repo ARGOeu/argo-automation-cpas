@@ -1,0 +1,13 @@
+---
+# ./check-prereqs.yml
+
+- name: Check if scg config file exists
+  ansible.builtin.stat:
+    path: "{{ sensu_scg_conf_path }}"
+  register: scg_conf_file_stat
+
+- name: Assert scg config file exists
+  ansible.builtin.assert:
+    that:
+      - scg_conf_file_stat.stat.exists
+  when: sensu_update_backend and not sensu_update_agent

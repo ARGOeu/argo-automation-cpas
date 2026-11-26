@@ -1,0 +1,10 @@
+---
+# remove-tenants.yml
+
+- name: Remove tenant to backend
+  ansible.builtin.import_tasks: ./tenants/remove/backend.yml
+  when: sensu_update_backend
+
+- name: Remove tenant to agent
+  ansible.builtin.import_tasks: ./tenants/remove/agent.yml
+  when: sensu_update_agent
