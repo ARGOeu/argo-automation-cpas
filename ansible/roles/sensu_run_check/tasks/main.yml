@@ -1,0 +1,12 @@
+---
+# tasks file for sensu_run_check
+
+- name: Check that tenants were specified
+  ansible.builtin.assert:
+    that:
+      - sensu_run_check_tenants is not null
+
+- name: Run sensu check for each tenant
+  ansible.builtin.command: "scg-run-check -e {{ item.tenant_name }} -mp default_metric"
+  loop: sensu_run_check_tenants
+  changed_when: true

@@ -1,0 +1,5 @@
+---
+# defaults file for archiver
+
+# List of tenants to execute checks on (use via extra_vars)
+sensu_run_check_tenants: null

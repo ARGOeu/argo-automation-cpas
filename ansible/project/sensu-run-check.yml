@@ -1,0 +1,8 @@
+---
+- name: Playbook for firing checks on tenants
+  hosts: sensu-backend
+  become: true
+  vars:
+    errors_ignore: false
+  roles:
+    - { role: sensu_run_check }
