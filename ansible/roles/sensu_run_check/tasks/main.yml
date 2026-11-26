@@ -7,6 +7,6 @@
       - sensu_run_check_tenants is not null
 
 - name: Run sensu check for each tenant
-  ansible.builtin.command: "scg-run-check -e {{ item.tenant_name }} -mp default_metric"
+  ansible.builtin.command: "scg-run-check -e {{ item.tenant_name }} -mp {{ sensu_run_check_metricprofile }}"
   loop: sensu_run_check_tenants
   changed_when: true

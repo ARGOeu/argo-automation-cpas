@@ -3,3 +3,6 @@
 
 # List of tenants to execute checks on (use via extra_vars)
 sensu_run_check_tenants: null
+
+# Metric profile used for checks
+sensu_run_check_metricprofile: default_metric
