@@ -1,13 +1,6 @@
-import asyncio
 import logging
-import json
-import ansible_runner
 
-from argo_automation_cpas.artifacts import print_artifacts
 from argo_automation_cpas.config import get_settings
-from argo_automation_cpas.tokens import RestAPITokens
-from argo_automation_cpas.webapi import WebAPI
-from argo_automation_cpas.ams import AMS
 from argo_automation_cpas.ansible_module import AnsibleModule
 
 LOG = logging.getLogger(__name__)
@@ -15,48 +8,13 @@ LOG = logging.getLogger(__name__)
 KEY_ADD_TENANTS: str = "sensu_run_check_tenants"
 KEY_METRIC_PROFILE: str = "sensu_run_check_metricprofile"
 
-class NewTenantAgentInfo:
-    def __init__(self, tenant_name="", tenant_poem_host="", tenant_poem_token=""):
-        self.tenant_name = tenant_name
-        self.tenant_name_lower = tenant_name.lower()
-        self.poem_host = tenant_poem_host
-        self.poem_token = tenant_poem_token
-
-
-class NewTenantBackendInfo:
-    def __init__(self, tenant_name="", ams_token="", webapi_token="", poem_token=""):
-        self.tenant_name = tenant_name
-        self.tenant_name_lower = tenant_name.lower()
-        self.ams_token = ams_token
-        self.webapi_token = webapi_token
-        self.poem_token = poem_token
-
-class NewTenantEntryInfo:
-    def __init__(
-        self,
-        tenant_agent_info: NewTenantAgentInfo,
-        tenant_backend_info: NewTenantBackendInfo,
-    ):
-        self.tenant_agent_info = tenant_agent_info
-        self.tenant_backend_info = tenant_backend_info
-
-    def to_dict(self) -> dict:
-        return {
-            "tenant_name": self.tenant_agent_info.tenant_name,
-            "poem_host": self.tenant_agent_info.poem_host,
-            "poem_token": self.tenant_agent_info.poem_token,
-            "ams_token": self.tenant_backend_info.ams_token,
-            "webapi_token": self.tenant_backend_info.webapi_token
-        }
-
 class RunCheckPlaybook(AnsibleModule):
     def __init__(self):
         super().__init__()
-        self._playbook = "sensu-run-check.yml"
-        self._inventory = "sensu-next.yml"
-        self.set_limit(["sensu-backend"])
         self.settings = get_settings()
-        self.restapi_tokens = RestAPITokens()
+        self._playbook = self.settings.ansible.sensu_run_check_playbook
+        self._inventory = self.settings.ansible.sensu_inventory
+        self.set_limit(["sensu-backend"])
 
         self._update_tenants: list[str] = []
         self._metric_profile: str | None = None
