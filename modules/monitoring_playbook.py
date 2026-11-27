@@ -54,9 +54,10 @@ class NewTenantEntryInfo:
 class MonitoringPlaybook(AnsibleModule):
     def __init__(self):
         super().__init__()
-        self._playbook = "sensu.yml"
-        self._inventory = "sensu-next.yml"
         self.settings = get_settings()
+        self._playbook = self.settings.ansible.sensu_playbook
+        self._inventory = self.settings.ansible.sensu_inventory
+        self._private_data_dir = self.settings.ansible_private_data_dir
         self.restapi_tokens = RestAPITokens()
 
         self._add_tenants: dict[str, NewTenantEntryInfo] = dict()

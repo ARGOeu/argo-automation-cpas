@@ -181,10 +181,7 @@ class MonboxGit:
 
     async def _commit_sensu_backend_changes(self):
         playbook_instance = MonitoringPlaybook()
-        playbook_instance.set_private_data_dir(self.settings.ansible_private_data_dir)
         playbook_instance.set_update_backend(True)
-        playbook_instance.set_inventory(self.settings.ansible.sensu_inventory)
-        playbook_instance.set_playbook(self.settings.ansible.sensu_playbook)
         playbook_instance.set_limit(['sensu-backend'])
 
         for tenant in self.new_tenant_entries:
@@ -204,9 +201,7 @@ class MonboxGit:
 
     async def _commit_sensu_agent_changes(self):
         playbook_instance = MonitoringPlaybook()
-        playbook_instance.set_private_data_dir(self.settings.ansible_private_data_dir)
         playbook_instance.set_update_agent(True)
-        playbook_instance.set_inventory(self.settings.ansible.sensu_inventory)
         playbook_instance.set_limit(['sensu-agent'])
         
         for tenant in self.new_tenant_entries:
