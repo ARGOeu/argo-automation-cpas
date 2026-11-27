@@ -1,0 +1,31 @@
+---
+# defaults file for archiver
+
+# Choose where the tenant is updated
+sensu_update_backend: false
+sensu_update_agent: false
+
+# List of tenants to be added (use via extra_vars)
+sensu_add_tenants: null
+
+# List of tenants to be removed (use via extra_vars)
+sensu_remove_tenants: null
+
+# -------------------------------------------------------------------
+
+# CONST SECTION
+
+# Config files paths
+sensu_scg_conf_path: /etc/argo-scg/scg.conf
+sensu_ams_conf_path: /etc/ams-publisher/ams-publisher-sensu.conf
+sensu_poem_tools_conf_path: /etc/argo-poem-tools/argo-poem-tools.conf
+
+# Scg config
+sensu_scg_poem_url: poem.devel.mon.argo.grnet.gr
+
+# Ams config
+sensu_ams_directory_base: /var/spool/ams-publisher/
+sensu_ams_api_url: api.devel.msg.argo.grnet.gr
+sensu_avro_schema_directory: /etc/ams-publisher/metric_data.avsc
+
+# /CONST SECTION

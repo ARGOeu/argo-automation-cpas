@@ -1,0 +1,39 @@
+---
+- name: Add section for each tenant
+  community.general.ini_file:
+    create: false
+    path: "{{ sensu_poem_tools_conf_path }}"
+    section: "{{ item.key }}"
+    allow_no_value: true
+  loop: "{{ sensu_add_tenants | dict2items }}"
+  no_log: true
+
+- name: Add host value for each tenant
+  community.general.ini_file:
+    create: false
+    path: "{{ sensu_poem_tools_conf_path }}"
+    section: "{{ item.key }}"
+    option: Host
+    value: "{{ item.value.poem_host }}"
+  loop: "{{ sensu_add_tenants | dict2items }}"
+  no_log: true
+
+- name: Add poem_token value for each tenant
+  community.general.ini_file:
+    create: false
+    path: "{{ sensu_poem_tools_conf_path }}"
+    section: "{{ item.key }}"
+    option: Token
+    value: "{{ item.value.poem_token }}"
+  loop: "{{ sensu_add_tenants | dict2items }}"
+  no_log: true
+
+- name: Add host value for each tenant
+  community.general.ini_file:
+    create: false
+    path: "{{ sensu_poem_tools_conf_path }}"
+    section: "{{ item.key }}"
+    option: MetricProfiles
+    value: "default_metric"
+  loop: "{{ sensu_add_tenants | dict2items }}"
+  no_log: true

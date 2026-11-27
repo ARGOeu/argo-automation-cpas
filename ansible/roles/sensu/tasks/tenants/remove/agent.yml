@@ -1,0 +1,7 @@
+---
+- name: Remove section for each tenant
+  community.general.ini_file:
+    create: false
+    path: "{{ sensu_poem_tools_conf_path }}"
+    section: "{{ item.key }}"
+  loop: "{{ sensu_remove_tenants }}"

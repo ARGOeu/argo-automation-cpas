@@ -1,0 +1,12 @@
+---
+# add-tenants.yml
+
+- name: Add tenant to backend
+  ansible.builtin.import_tasks: ./tenants/add/backend.yml
+  when: sensu_update_backend
+  notify: Restart backend
+
+- name: Add tenant to agent
+  ansible.builtin.import_tasks: ./tenants/add/agent.yml
+  when: sensu_update_agent
+  notify: Restart agent
