@@ -1,13 +1,6 @@
-import asyncio
 import logging
-import json
-import ansible_runner
 
-from argo_automation_cpas.artifacts import print_artifacts
 from argo_automation_cpas.config import get_settings
-from argo_automation_cpas.tokens import RestAPITokens
-from argo_automation_cpas.webapi import WebAPI
-from argo_automation_cpas.ams import AMS
 from argo_automation_cpas.ansible_module import AnsibleModule
 
 LOG = logging.getLogger(__name__)
@@ -58,7 +51,6 @@ class MonitoringPlaybook(AnsibleModule):
         self._playbook = self.settings.ansible.sensu_playbook
         self._inventory = self.settings.ansible.sensu_inventory
         self._private_data_dir = self.settings.ansible_private_data_dir
-        self.restapi_tokens = RestAPITokens()
 
         self._add_tenants: dict[str, NewTenantEntryInfo] = dict()
         self._remove_tenants: list[str] = []
