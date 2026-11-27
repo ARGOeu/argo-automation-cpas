@@ -198,6 +198,8 @@ class Application:
         if not all_tenants_inited:
             LOG.warning("Some tenants weren't able to initialize monitoring box!")
 
+        await monboxgit.run_checks_on_tenants(inited_tenants)
+
         token = await iam.fetch_token()
 
         for payload in init_events:

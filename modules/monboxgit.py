@@ -1,13 +1,5 @@
 import asyncio
-import datetime
 import logging
-import os
-import subprocess
-import uuid
-import yaml
-import tempfile
-import shutil
-from git import Repo
 from enum import Enum
 
 from argo_automation_cpas.monitoring_playbook import (
@@ -15,6 +7,10 @@ from argo_automation_cpas.monitoring_playbook import (
     NewTenantAgentInfo, 
     NewTenantBackendInfo, 
     NewTenantEntryInfo
+)
+
+from argo_automation_cpas.run_check_playbook import (
+    RunCheckPlaybook
 )
 
 class MonboxAddTenantResult(Enum):
@@ -162,6 +158,19 @@ class MonboxGit:
         all_tenants_inited, inited_tenants = self._check_if_all_tenants_inited(r.events)
 
         return all_tenants_inited, inited_tenants
+
+    async def run_checks_on_tenants(self, in_tenants: list[str]) -> bool:
+        run_check_playbook = RunCheckPlaybook()
+        run_check_playbook.add_tenants(in_tenants)
+
+        LOG.info("Running checks via RunCheckPlaybook")
+
+        (success, kwargs) = await run_check_playbook.run()
+
+        if not success:
+            LOG.warning("RunCheckPlaybook run was not successful!")
+        
+        return success
 
     def clear_added_tenants(self):
         self.new_tenant_entries.clear()
